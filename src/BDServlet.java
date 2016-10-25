@@ -1,12 +1,16 @@
 
 import java.io.IOException;
 
-
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entities.User;
 
 import java.io.PrintWriter;
 
@@ -42,6 +46,20 @@ public class BDServlet extends HttpServlet {
 	////////////////////////////////////////////////////////////////////////////////////////
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
+		/****************************************************************************
+		 ****************** CREATION OF A NEW USER USING JPA ************************
+		 ****************************************************************************/
+
+		// Create one entity user, set its attributes and make it persist
+		entities.User user = new entities.User();
+		user.setIdusers(613);  // comment this line if you are going to generate ids automatically
+		user.setName("name test");
+		user.setSurename("surename test");
+		
+		newUser(user);
+
+
+		
 		// Set the Content Type
 		res.setContentType("text/html");
 
@@ -95,6 +113,28 @@ public class BDServlet extends HttpServlet {
 			out.println("</body></html>");
 
 		}
+	}
+
+	private void newUser(User user) {
+
+		// 1 Create the factory of Entity Manager
+				EntityManagerFactory factory = 
+						Persistence.createEntityManagerFactory("JPAexample1");
+
+				// 2 Create the Entity Manager
+				EntityManager em = factory.createEntityManager();
+
+				// 3 Get one EntityTransaction and start it
+				EntityTransaction tx = em.getTransaction();
+				tx.begin();
+				
+				em.persist(user);
+		
+				// 4 Commmit the transaction
+				tx.commit();
+
+				// 5 Close the manager
+				em.close();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////
