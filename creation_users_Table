@@ -1,0 +1,6 @@
+CREATE TABLE `users` (
+  `name` varchar(20) NOT NULL DEFAULT '',
+  `surename` varchar(30) NOT NULL DEFAULT '',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
