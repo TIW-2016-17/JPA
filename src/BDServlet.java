@@ -52,7 +52,7 @@ public class BDServlet extends HttpServlet {
 
 		// Create one entity user, set its attributes and make it persist
 		entities.User user = new entities.User();
-		user.setIdusers(613);  // comment this line if you are going to generate ids automatically
+		//user.setIdusers(613);  // comment this line if you are going to generate ids automatically
 		user.setName("name test");
 		user.setSurename("surename test");
 		

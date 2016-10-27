@@ -15,7 +15,9 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	//@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	// need an autoincrement field
+	// alter table users change idusers idusers int (11) AUTO_INCREMENT NOT NULL;
 	private int idusers;
 
 	private String name;
