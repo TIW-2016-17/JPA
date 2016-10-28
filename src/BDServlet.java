@@ -5,17 +5,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entities.Section;
 import entities.User;
 
 import java.io.PrintWriter;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.Iterator;
+import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -51,14 +56,11 @@ public class BDServlet extends HttpServlet {
 		 ****************************************************************************/
 
 		// Create one entity user, set its attributes and make it persist
-		entities.User user = new entities.User();
-		//user.setIdusers(613);  // comment this line if you are going to generate ids automatically
-		user.setName("name test");
-		user.setSurename("surename test");
 		
-		newUser(user);
+		
+		//newUser(new entities.User("name test","surename test"));
 
-
+		printSections();
 		
 		// Set the Content Type
 		res.setContentType("text/html");
@@ -135,6 +137,31 @@ public class BDServlet extends HttpServlet {
 
 				// 5 Close the manager
 				em.close();
+	}
+	
+	/**
+	 * Print all the names of the sections 
+	 */
+	private void printSections() {
+		System.out.println("######## Printing sections ##########");
+
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAexample1");
+		
+		EntityManager em = emf.createEntityManager();
+
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		// Select * from Section
+		TypedQuery<Section> q = em.createQuery("select s from Section s",Section.class);
+		
+		for(Section s:q.getResultList()){
+			System.out.println(s.getName());
+		}
+		
+		et.commit();
+		em.close();
+	
+		
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////

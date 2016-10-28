@@ -26,6 +26,25 @@ public class User implements Serializable {
 
 	public User() {
 	}
+	
+	
+
+	public User(int idusers, String name, String surename) {
+		super();
+		this.idusers = idusers;
+		this.name = name;
+		this.surename = surename;
+	}
+
+
+
+	public User(String name, String surename) {
+		super();
+		this.name = name;
+		this.surename = surename;
+	}
+
+
 
 	public int getIdusers() {
 		return this.idusers;
