@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entities.Cours;
+import entities.Object;
 import entities.Section;
 import entities.User;
 
@@ -19,6 +21,7 @@ import java.io.PrintWriter;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.sql.ResultSet;
@@ -62,8 +65,11 @@ public class BDServlet extends HttpServlet {
 
 		//printSections();
 		
-		printObjectsFromCourse(18);
+		//printObjectsFromCourse(18);
 
+		newLearningObject(new entities.Object("New Object",
+				"The description of the new Object","a Route...",
+				new ArrayList<Cours>()),19);
 		
 		// Set the Content Type
 		res.setContentType("text/html");
@@ -118,6 +124,27 @@ public class BDServlet extends HttpServlet {
 			out.println("</body></html>");
 
 		}
+	}
+
+	private void newLearningObject(entities.Object newObject, int courseId) {
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAexample1");
+			
+			EntityManager em = emf.createEntityManager();
+
+			EntityTransaction et = em.getTransaction();
+			et.begin();
+			
+			Cours curse = em.find(Cours.class,courseId);
+			
+			newObject.getCourses().add(curse);
+			
+			curse.getObjects().add(newObject);
+			
+			em.persist(newObject);
+			
+			et.commit();
+			em.close();
+		
 	}
 
 	private void newUser(User user) {

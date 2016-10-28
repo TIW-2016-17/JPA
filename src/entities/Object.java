@@ -50,6 +50,18 @@ public class Object implements Serializable {
 
 	public Object() {
 	}
+	
+	
+
+	public Object(String description, String name, String route, List<Cours> courses) {
+		super();
+		this.description = description;
+		this.name = name;
+		this.route = route;
+		this.courses = courses;
+	}
+
+
 
 	public int getIdObject() {
 		return this.idObject;
