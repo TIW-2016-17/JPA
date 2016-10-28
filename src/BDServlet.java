@@ -60,7 +60,10 @@ public class BDServlet extends HttpServlet {
 		
 		//newUser(new entities.User("name test","surename test"));
 
-		printSections();
+		//printSections();
+		
+		printObjectsFromCourse(18);
+
 		
 		// Set the Content Type
 		res.setContentType("text/html");
@@ -163,6 +166,39 @@ public class BDServlet extends HttpServlet {
 	
 		
 	}
+	
+	/**
+	 * n Print the name of all the objects included in ta course
+	 * @param idCourse
+	 */
+	private void printObjectsFromCourse(int idCourse) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAexample1");
+		
+		EntityManager em = emf.createEntityManager();
+
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		/* select o.name 
+		 * from Objects o, CoursesObjects co, Courses c 
+		 * where c.id_course = co.id_course and co.id_object = o.id_object and c.id_course = 18;
+		
+	*/
+		TypedQuery<entities.Object> q = em.createQuery("select o from Object o "
+								+ "	JOIN o.courses c "
+								+ "	WHERE c.idCourse = "+idCourse,entities.Object.class);
+
+		System.out.println(" ##### Printing objects from course "+idCourse+" #######");
+
+		for (entities.Object obj : q.getResultList()){
+			
+			System.out.println(obj.getName());
+		}
+		
+		et.commit();
+		em.close();
+	}
+
+
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
